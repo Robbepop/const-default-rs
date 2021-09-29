@@ -2,7 +2,7 @@
 name = "const_default_2"
 authors = ["Robin Freyler"]
 version = "0.1.0"
-edition = "2021"
+edition = "2018"
 
 description = "Root crate for #[derive(ConstDefault)] proc. macro"
 documentation = "https://docs.rs/const-default-derive-2"
