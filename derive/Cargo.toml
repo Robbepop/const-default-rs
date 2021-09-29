@@ -6,7 +6,7 @@ edition = "2018"
 
 description = "Proc. macro implementation of #[derive(ConstDefault)]"
 documentation = "https://docs.rs/const-default-derive-2"
-license = "MIT"
+license = "Apache-v2.0"
 readme = "../README.md"
 repository = "https://github.com/Robbepop/const-default-rs"
 
