@@ -24,6 +24,7 @@ syn = {version = "1", default-features = false, features = [
   "proc-macro",
   "printing",
 ]}
+proc-macro-crate = "1"
 
 [dev-dependencies]
 const_default_2 = { path = "..", features = ["derive"] }
