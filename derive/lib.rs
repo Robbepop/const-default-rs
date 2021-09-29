@@ -92,7 +92,7 @@ fn derive_default(input: TokenStream2) -> Result<TokenStream2, syn::Error> {
     )?;
     let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
     Ok(quote! {
-        impl #impl_generics ::const_default_2::ConstDefault for #ident #ty_generics #where_clause {
+        impl #impl_generics #crate_ident::ConstDefault for #ident #ty_generics #where_clause {
             const DEFAULT: Self = #default_impl;
         }
     })
