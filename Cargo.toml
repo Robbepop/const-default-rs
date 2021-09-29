@@ -4,7 +4,7 @@ authors = ["Robin Freyler"]
 version = "0.1.0"
 edition = "2018"
 
-description = "Root crate for #[derive(ConstDefault)] proc. macro"
+description = "Provides the ConstDefault trait and implementations."
 documentation = "https://docs.rs/const-default-derive"
 license = "Apache-v2.0"
 readme = "README.md"

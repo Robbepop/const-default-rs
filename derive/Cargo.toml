@@ -4,7 +4,7 @@ authors = ["Robin Freyler"]
 version = "0.1.0"
 edition = "2018"
 
-description = "Proc. macro implementation of #[derive(ConstDefault)]"
+description = "Provides the #[derive(ConstDefault)] proc. macro."
 documentation = "https://docs.rs/const-default-derive-2"
 license = "Apache-v2.0"
 readme = "../README.md"
