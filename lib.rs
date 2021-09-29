@@ -35,6 +35,7 @@ use core::{
         AtomicI64,
         AtomicI8,
         AtomicIsize,
+        AtomicPtr,
         AtomicU16,
         AtomicU32,
         AtomicU64,
@@ -129,6 +130,10 @@ impl_const_default_for_atomic_integer!(
 
 impl ConstDefault for AtomicBool {
     const DEFAULT: Self = Self::new(false);
+}
+
+impl<T> ConstDefault for AtomicPtr<T> {
+    const DEFAULT: Self = Self::new(core::ptr::null_mut());
 }
 
 macro_rules! impl_const_default_for_float {
