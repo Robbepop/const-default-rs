@@ -73,20 +73,17 @@ fn derive_default(input: TokenStream2) -> Result<TokenStream2, syn::Error> {
     let crate_ident = query_crate_ident()?;
     let input = syn::parse2::<syn::DeriveInput>(input)?;
     let ident = input.ident;
-    let (default_impl, data_struct) = match input.data {
-        syn::Data::Struct(data_struct) => {
-            (
-                generate_default_impl_struct(&crate_ident, &data_struct)?,
-                data_struct,
-            )
-        }
+    let data_struct = match input.data {
+        syn::Data::Struct(data_struct) => data_struct,
         _ => {
             return Err(Error::new(
                 Span::call_site(),
-                "derive can only impl ConstDefault for a struct",
+                "ConstDefault derive only works on struct types",
             ))
         }
     };
+    let default_impl =
+        generate_default_impl_struct(&crate_ident, &data_struct)?;
     let mut generics = input.generics;
     generate_default_impl_where_bounds(
         &crate_ident,
