@@ -8,7 +8,7 @@ description = "Root crate for #[derive(ConstDefault)] proc. macro"
 documentation = "https://docs.rs/const-default-derive-2"
 license = "Apache-v2.0"
 readme = "README.md"
-repository = "https://github.com/AerialX/const-default.rs"
+repository = "https://github.com/Robbepop/const-default-rs"
 
 [lib]
 name = "const_default_2"
