@@ -1,0 +1,34 @@
+[package]
+name = "const_default_2"
+authors = ["Robin Freyler"]
+version = "0.1.0"
+edition = "2021"
+
+description = "Root crate for #[derive(ConstDefault)] proc. macro"
+documentation = "https://docs.rs/const-default-derive-2"
+license = "Apache-v2.0"
+readme = "README.md"
+repository = "https://github.com/AerialX/const-default.rs"
+
+[lib]
+name = "const_default_2"
+path = "lib.rs"
+
+[dependencies]
+const_default_derive_2 = { path = "derive", version = "0.1.0", optional = true }
+
+[features]
+default = ["std"]
+std = []
+alloc = []
+unstable = []
+derive = ["const_default_derive_2"]
+
+[package.metadata.docs.rs]
+all-features = true
+
+[workspace]
+members = [
+    "derive",
+    "tools"
+]
