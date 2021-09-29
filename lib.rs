@@ -24,6 +24,7 @@ pub use const_default_derive::ConstDefault;
 
 use core::{
     cell::{Cell, RefCell, UnsafeCell},
+    iter::Empty,
     marker::{PhantomData, PhantomPinned},
     mem::{ManuallyDrop, MaybeUninit},
     num::Wrapping,
@@ -40,6 +41,7 @@ use core::{
         AtomicU8,
         AtomicUsize,
     },
+    time::Duration,
 };
 
 #[cfg(all(not(feature = "std"), feature = "alloc"))]
@@ -126,7 +128,7 @@ impl_const_default_for_atomic_integer!(
 );
 
 impl ConstDefault for AtomicBool {
-    const DEFAULT: Self = AtomicBool::new(false);
+    const DEFAULT: Self = Self::new(false);
 }
 
 macro_rules! impl_const_default_for_float {
@@ -187,7 +189,7 @@ impl ConstDefault for bool {
 }
 
 impl ConstDefault for char {
-    const DEFAULT: Self = '\0';
+    const DEFAULT: Self = '\x00';
 }
 
 impl ConstDefault for &str {
@@ -217,42 +219,50 @@ impl<T> ConstDefault for Cell<T>
 where
     T: ConstDefault,
 {
-    const DEFAULT: Self = Cell::new(<T as ConstDefault>::DEFAULT);
+    const DEFAULT: Self = Self::new(<T as ConstDefault>::DEFAULT);
 }
 
 impl<T> ConstDefault for ManuallyDrop<T>
 where
     T: ConstDefault,
 {
-    const DEFAULT: Self = ManuallyDrop::new(<T as ConstDefault>::DEFAULT);
+    const DEFAULT: Self = Self::new(<T as ConstDefault>::DEFAULT);
 }
 
 impl<T> ConstDefault for MaybeUninit<T>
 where
     T: ConstDefault,
 {
-    const DEFAULT: Self = MaybeUninit::new(<T as ConstDefault>::DEFAULT);
+    const DEFAULT: Self = Self::new(<T as ConstDefault>::DEFAULT);
 }
 
 impl<T> ConstDefault for UnsafeCell<T>
 where
     T: ConstDefault,
 {
-    const DEFAULT: Self = UnsafeCell::new(<T as ConstDefault>::DEFAULT);
+    const DEFAULT: Self = Self::new(<T as ConstDefault>::DEFAULT);
 }
 
 impl<T> ConstDefault for RefCell<T>
 where
     T: ConstDefault,
 {
-    const DEFAULT: Self = RefCell::new(<T as ConstDefault>::DEFAULT);
+    const DEFAULT: Self = Self::new(<T as ConstDefault>::DEFAULT);
 }
 
 impl<T> ConstDefault for Wrapping<T>
 where
     T: ConstDefault,
 {
-    const DEFAULT: Self = Wrapping(<T as ConstDefault>::DEFAULT);
+    const DEFAULT: Self = Self(<T as ConstDefault>::DEFAULT);
+}
+
+impl ConstDefault for Duration {
+    const DEFAULT: Self = Self::from_secs(0);
+}
+
+impl<T> ConstDefault for Empty<T> {
+    const DEFAULT: Self = core::iter::empty();
 }
 
 #[cfg(any(feature = "std", feature = "alloc"))]
@@ -262,7 +272,7 @@ where
     <T as ToOwned>::Owned: ConstDefault,
 {
     const DEFAULT: Self =
-        Cow::Owned(<<T as ToOwned>::Owned as ConstDefault>::DEFAULT);
+        Self::Owned(<<T as ToOwned>::Owned as ConstDefault>::DEFAULT);
 }
 
 #[cfg(all(any(feature = "std", feature = "alloc"), feature = "unstable"))]
@@ -276,11 +286,11 @@ impl<T: Ord> ConstDefault for BTreeSet<T> {
 }
 
 impl<T> ConstDefault for PhantomData<T> {
-    const DEFAULT: Self = PhantomData;
+    const DEFAULT: Self = Self;
 }
 
 impl ConstDefault for PhantomPinned {
-    const DEFAULT: Self = PhantomPinned;
+    const DEFAULT: Self = Self;
 }
 
 impl<T> ConstDefault for *const T {
