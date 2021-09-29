@@ -69,6 +69,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     }
 }
 
+/// Implements the derive of `#[derive(ConstDefault)]` for struct types.
 fn derive_default(input: TokenStream2) -> Result<TokenStream2, syn::Error> {
     let crate_ident = query_crate_ident()?;
     let input = syn::parse2::<syn::DeriveInput>(input)?;
