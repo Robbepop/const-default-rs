@@ -1,28 +1,28 @@
 [package]
-name = "const_default_2"
+name = "const_default"
 authors = ["Robin Freyler"]
 version = "0.1.0"
 edition = "2018"
 
 description = "Root crate for #[derive(ConstDefault)] proc. macro"
-documentation = "https://docs.rs/const-default-derive-2"
+documentation = "https://docs.rs/const-default-derive"
 license = "Apache-v2.0"
 readme = "README.md"
 repository = "https://github.com/Robbepop/const-default-rs"
 
 [lib]
-name = "const_default_2"
+name = "const_default"
 path = "lib.rs"
 
 [dependencies]
-const_default_derive_2 = { path = "derive", version = "0.1.0", optional = true }
+const_default_derive = { path = "derive", version = "0.1.0", optional = true }
 
 [features]
 default = ["std"]
 std = []
 alloc = []
 unstable = []
-derive = ["const_default_derive_2"]
+derive = ["const_default_derive"]
 
 [package.metadata.docs.rs]
 all-features = true

@@ -20,7 +20,7 @@
 #![allow(clippy::declare_interior_mutable_const)]
 
 #[cfg(feature = "derive")]
-pub use const_default_derive_2::ConstDefault;
+pub use const_default_derive::ConstDefault;
 
 use core::{
     cell::{Cell, RefCell, UnsafeCell},
@@ -75,7 +75,7 @@ use std::{borrow::Cow, collections::LinkedList};
 /// ```
 /// # #[cfg(feature = "std")]
 /// # const _: () = {
-/// # use const_default_2::ConstDefault;
+/// # use const_default::ConstDefault;
 /// const VEC: Vec<u8> = <Vec<u8> as ConstDefault>::DEFAULT;
 /// # };
 /// ```

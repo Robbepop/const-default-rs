@@ -1,5 +1,5 @@
 [package]
-name = "const_default_derive_2"
+name = "const_default_derive"
 authors = ["Robin Freyler"]
 version = "0.1.0"
 edition = "2018"
@@ -11,7 +11,7 @@ readme = "../README.md"
 repository = "https://github.com/Robbepop/const-default-rs"
 
 [lib]
-name = "const_default_derive_2"
+name = "const_default_derive"
 path = "lib.rs"
 proc-macro = true
 
@@ -27,4 +27,4 @@ syn = {version = "1", default-features = false, features = [
 proc-macro-crate = "1"
 
 [dev-dependencies]
-const_default_2 = { path = "..", features = ["derive"] }
+const_default = { path = "..", features = ["derive"] }

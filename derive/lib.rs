@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#![doc(html_root_url = "http://docs.rs/const_default_derive_2/0.1.0")]
+#![doc(html_root_url = "http://docs.rs/const_default_derive/0.1.0")]
 
 extern crate proc_macro;
 
@@ -33,7 +33,7 @@ use syn::{spanned::Spanned, Error};
 /// ## Struct
 ///
 /// ```
-/// # use const_default_2::ConstDefault;
+/// # use const_default::ConstDefault;
 /// #[derive(ConstDefault)]
 /// # #[derive(Debug, PartialEq)]
 /// pub struct Color {
@@ -51,7 +51,7 @@ use syn::{spanned::Spanned, Error};
 /// ## Tuple Struct
 ///
 /// ```
-/// # use const_default_2::ConstDefault;
+/// # use const_default::ConstDefault;
 /// #[derive(ConstDefault)]
 /// # #[derive(Debug, PartialEq)]
 /// pub struct Vec3(f32, f32, f32);
@@ -100,7 +100,7 @@ fn derive_default(input: TokenStream2) -> Result<TokenStream2, syn::Error> {
 
 /// Queries the dependencies for the derive root crate name and returns the identifier.
 fn query_crate_ident() -> Result<TokenStream2, syn::Error> {
-    let query = crate_name("const_default_2").map_err(|error| {
+    let query = crate_name("const_default").map_err(|error| {
         Error::new(
             Span::call_site(),
             format!(

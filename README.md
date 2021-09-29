@@ -17,7 +17,7 @@ easily for their custom types.
 Add
 ```toml
 [dependencies]
-const_default_2 = { version = "0.1", features = ["derive"] }
+const_default = { version = "0.1", features = ["derive"] }
 ```
 to your `Cargo.toml` and start using it.
 
