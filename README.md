@@ -10,7 +10,7 @@ easily for their custom types.
 - 100% safe Rust
 - `no_std` compatible
 - Full macro hygiene
-- Rust Edition 2021
+- Rust Edition 2018
 
 ## Usage
 
