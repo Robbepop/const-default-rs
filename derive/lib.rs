@@ -17,9 +17,9 @@
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
-use proc_macro2::{Span, TokenStream as TokenStream2};
+use proc_macro2::{Literal, Span, TokenStream as TokenStream2};
 use quote::{quote, quote_spanned};
-use syn::{spanned::Spanned, Error, Fields};
+use syn::{spanned::Spanned, Error};
 
 /// Derives an implementation for the [`ConstDefault`] trait.
 ///
@@ -96,42 +96,25 @@ fn derive_default(input: TokenStream2) -> Result<TokenStream2, syn::Error> {
 fn generate_default_impl_struct(
     data_struct: &syn::DataStruct,
 ) -> Result<TokenStream2, syn::Error> {
-    let default_impl = match &data_struct.fields {
-        Fields::Unit => quote! { Self },
-        Fields::Unnamed(fields) => {
-            let span = fields.span();
-            let fields = fields.unnamed.pairs().map(|field_comma| {
-                let field = field_comma.value();
-                let field_span = field.span();
-                let field_type = &field.ty;
-                quote_spanned!(field_span=>
-                    <#field_type as ::const_default_2::ConstDefault>::DEFAULT
-                )
-            });
-            quote_spanned!(span=>
-                Self(
-                    #( #fields ),*
-                )
+    let fields_impl =
+        data_struct.fields.iter().enumerate().map(|(n, field)| {
+            let field_span = field.span();
+            let field_type = &field.ty;
+            let field_pos = Literal::usize_unsuffixed(n);
+            let field_ident = field
+                .ident
+                .as_ref()
+                .map(|ident| quote_spanned!(field_span=> #ident))
+                .unwrap_or_else(|| quote_spanned!(field_span=> #field_pos));
+            quote_spanned!(field_span=>
+                #field_ident: <#field_type as ::const_default_2::ConstDefault>::DEFAULT
             )
+        });
+    Ok(quote! {
+        Self {
+            #( #fields_impl ),*
         }
-        Fields::Named(fields) => {
-            let fields = fields.named.pairs().map(|field_comma| {
-                let field = field_comma.value();
-                let field_span = field.span();
-                let field_ident = field.ident.as_ref().unwrap();
-                let field_type = &field.ty;
-                quote_spanned!(field_span=>
-                    #field_ident: <#field_type as ::const_default_2::ConstDefault>::DEFAULT
-                )
-            });
-            quote! {
-                Self {
-                    #( #fields ),*
-                }
-            }
-        }
-    };
-    Ok(default_impl)
+    })
 }
 
 /// Generates `ConstDefault` where bounds for all fields of the input.
@@ -140,7 +123,7 @@ fn generate_default_impl_where_bounds(
     generics: &mut syn::Generics,
 ) -> Result<(), syn::Error> {
     let where_clause = generics.make_where_clause();
-    for field in data_struct.fields.iter() {
+    for field in &data_struct.fields {
         let field_type = &field.ty;
         where_clause.predicates.push(syn::parse_quote!(
             #field_type: ::const_default_2::ConstDefault
