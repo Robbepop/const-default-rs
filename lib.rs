@@ -24,10 +24,11 @@ pub use const_default_derive::ConstDefault;
 
 use core::{
     cell::{Cell, RefCell, UnsafeCell},
-    iter::Empty,
+    iter::{self, Empty},
     marker::{PhantomData, PhantomPinned},
     mem::{ManuallyDrop, MaybeUninit},
     num::Wrapping,
+    ptr,
     sync::atomic::{
         AtomicBool,
         AtomicI16,
@@ -110,7 +111,7 @@ macro_rules! impl_const_default_for_atomic_integer {
     ( $( $atomic_integer:ty ),* ) => {
         $(
             impl ConstDefault for $atomic_integer {
-                const DEFAULT: Self = <$atomic_integer>::new(0);
+                const DEFAULT: Self = Self::new(0);
             }
         )*
     };
@@ -133,7 +134,7 @@ impl ConstDefault for AtomicBool {
 }
 
 impl<T> ConstDefault for AtomicPtr<T> {
-    const DEFAULT: Self = Self::new(core::ptr::null_mut());
+    const DEFAULT: Self = Self::new(ptr::null_mut());
 }
 
 macro_rules! impl_const_default_for_float {
@@ -267,7 +268,7 @@ impl ConstDefault for Duration {
 }
 
 impl<T> ConstDefault for Empty<T> {
-    const DEFAULT: Self = core::iter::empty();
+    const DEFAULT: Self = iter::empty();
 }
 
 #[cfg(any(feature = "std", feature = "alloc"))]
@@ -299,9 +300,9 @@ impl ConstDefault for PhantomPinned {
 }
 
 impl<T> ConstDefault for *const T {
-    const DEFAULT: Self = core::ptr::null();
+    const DEFAULT: Self = ptr::null();
 }
 
 impl<T> ConstDefault for *mut T {
-    const DEFAULT: Self = core::ptr::null_mut();
+    const DEFAULT: Self = ptr::null_mut();
 }
