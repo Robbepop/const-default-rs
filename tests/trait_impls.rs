@@ -97,3 +97,59 @@ fn array_impls_work() {
         30, 31, 32,
     );
 }
+
+macro_rules! compare_default_impls_for_atomics {
+    ( $( $atomic_type:ty ),* $(,)? ) => {{
+        $(
+            assert_eq!(
+                <$atomic_type as ConstDefault>::DEFAULT.load(Ordering::SeqCst),
+                <$atomic_type as Default>::default().load(Ordering::SeqCst),
+            );
+        )*
+    }};
+}
+
+#[test]
+fn atomic_impls_work() {
+    compare_default_impls_for_atomics!(
+        AtomicBool,
+        AtomicI16,
+        AtomicI32,
+        AtomicI64,
+        AtomicI8,
+        AtomicIsize,
+        AtomicU16,
+        AtomicU32,
+        AtomicU64,
+        AtomicU8,
+        AtomicUsize,
+    );
+    assert_eq!(
+        <AtomicPtr<()> as ConstDefault>::DEFAULT.load(Ordering::SeqCst),
+        <AtomicPtr<()> as Default>::default().load(Ordering::SeqCst),
+    );
+}
+
+macro_rules! compare_default_impls_for_cells {
+    ( $( $cell_type:ty ),* $(,)? ) => {{
+        $(
+            assert_eq!(
+                <$cell_type as ConstDefault>::DEFAULT.into_inner(),
+                <$cell_type as Default>::default().into_inner(),
+            );
+        )*
+    }};
+}
+
+#[test]
+fn cell_impls_work() {
+    #[rustfmt::skip]
+    compare_default_impls_for_cells!(
+        Cell<u8>,
+        Cell<(u8, u16, u32)>,
+        Cell<Cell<u8>>,
+        RefCell<u8>,
+        RefCell<(u8, u16, u32)>,
+        RefCell<RefCell<u8>>,
+    );
+}
