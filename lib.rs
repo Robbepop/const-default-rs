@@ -19,6 +19,9 @@
 )]
 #![allow(clippy::declare_interior_mutable_const)]
 
+#[cfg(feature = "alloc")]
+extern crate alloc;
+
 #[cfg(feature = "derive")]
 pub use const_default_derive::ConstDefault;
 
@@ -46,10 +49,7 @@ use core::{
     time::Duration,
 };
 
-#[cfg(all(not(feature = "std"), feature = "alloc"))]
-extern crate alloc;
-
-#[cfg(all(not(feature = "std"), feature = "alloc"))]
+#[cfg(feature = "alloc")]
 use alloc::{
     borrow::Cow,
     borrow::ToOwned,
@@ -58,14 +58,8 @@ use alloc::{
     vec::Vec,
 };
 
-#[cfg(all(feature = "std", feature = "unstable"))]
-use std::collections::{BTreeMap, BTreeSet};
-
-#[cfg(all(not(feature = "std"), feature = "alloc", feature = "unstable"))]
+#[cfg(all(feature = "alloc", feature = "unstable"))]
 use alloc::collections::{BTreeMap, BTreeSet};
-
-#[cfg(feature = "std")]
-use std::{borrow::Cow, collections::LinkedList};
 
 /// Implements a compilation time default value for the implemented type.
 ///

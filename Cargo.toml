@@ -19,7 +19,7 @@ const_default_derive = { path = "derive", version = "0.1.0", optional = true }
 
 [features]
 default = ["std"]
-std = []
+std = ["alloc"]
 alloc = []
 unstable = []
 derive = ["const_default_derive"]
