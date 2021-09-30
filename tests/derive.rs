@@ -194,9 +194,7 @@ fn type_alias_works() {
         field_0: TestAlias,
     }
     #[derive(ConstDefault, Debug, Default, PartialEq)]
-    pub struct TestType2 {
-        field_0: TestAlias,
-    }
+    pub struct TestType2(TestAlias);
     assert_eq!(<TestType1 as ConstDefault>::DEFAULT, TestType1::default());
     assert_eq!(<TestType2 as ConstDefault>::DEFAULT, TestType2::default());
 }
