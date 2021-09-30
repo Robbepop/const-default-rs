@@ -14,7 +14,7 @@
 
 #![cfg_attr(not(feature = "std"), no_std)]
 #![cfg_attr(
-    all(feature = "unstable", feature = "alloc"),
+    all(feature = "alloc", feature = "unstable"),
     feature(const_btree_new)
 )]
 #![allow(clippy::declare_interior_mutable_const)]
