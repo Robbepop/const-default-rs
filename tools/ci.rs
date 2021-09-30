@@ -54,61 +54,29 @@ fn main() {
     rustup(["+nightly", "component", "add", "clippy"]);
 
     // Check if the entire workspace can be compiled under different configurations.
+    //
+    // Default features enabled.
     cargo(["--locked", "check", "--workspace"]);
+    // No default features enabled.
     cargo(["--locked", "check", "--workspace", "--no-default-features"]);
-    cargo([
-        "--locked",
-        "check",
-        "--workspace",
-        "--no-default-features",
-        "--features=alloc",
-    ]);
-    cargo([
-        "--locked",
-        "check",
-        "--workspace",
-        "--no-default-features",
-        "--features=derive",
-    ]);
-    cargo([
-        "--locked",
-        "check",
-        "--workspace",
-        "--no-default-features",
-        "--features=alloc,derive",
-    ]);
+    // All features enabled.
     cargo(["--locked", "check", "--workspace", "--all-features"]);
 
     // Check formatting of the entire workspace.
     cargo(["--locked", "fmt", "--all", "--", "--check"]);
 
     // Check test suite of the entire workspace under different configurations.
+    //
+    // Default features enabled.
     cargo(["--locked", "test", "--workspace"]);
+    // No default features enabled.
     cargo(["--locked", "test", "--workspace", "--no-default-features"]);
-    cargo([
-        "--locked",
-        "test",
-        "--workspace",
-        "--no-default-features",
-        "--features=alloc",
-    ]);
-    cargo([
-        "--locked",
-        "test",
-        "--workspace",
-        "--no-default-features",
-        "--features=derive",
-    ]);
-    cargo([
-        "--locked",
-        "test",
-        "--workspace",
-        "--no-default-features",
-        "--features=alloc,derive",
-    ]);
+    // All features enabled.
     cargo(["--locked", "test", "--workspace", "--all-features"]);
 
     // Lint the entire workspace under different configurations.
+    //
+    // Default features enabled.
     cargo([
         "+nightly",
         "--locked",
@@ -117,45 +85,17 @@ fn main() {
         "--",
         "-Dwarnings",
     ]);
-    cargo([
-        "+nightly",
-        "--locked",
-        "clippy",
-        "--workspace",
-        "--no-default-features",
-        "--",
-        "-Dwarnings",
-    ]);
+    // No default features enabled.
     cargo([
         "+nightly",
         "--locked",
         "clippy",
         "--workspace",
         "--no-default-features",
-        "--features=alloc",
         "--",
         "-Dwarnings",
     ]);
-    cargo([
-        "+nightly",
-        "--locked",
-        "clippy",
-        "--workspace",
-        "--no-default-features",
-        "--features=derive",
-        "--",
-        "-Dwarnings",
-    ]);
-    cargo([
-        "+nightly",
-        "--locked",
-        "clippy",
-        "--workspace",
-        "--no-default-features",
-        "--features=alloc,derive",
-        "--",
-        "-Dwarnings",
-    ]);
+    // All features enabled.
     cargo([
         "+nightly",
         "--locked",
