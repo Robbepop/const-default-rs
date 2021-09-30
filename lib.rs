@@ -204,17 +204,17 @@ impl<T> ConstDefault for Option<T> {
     const DEFAULT: Self = None;
 }
 
-#[cfg(any(feature = "std", feature = "alloc"))]
+#[cfg(feature = "alloc")]
 impl ConstDefault for String {
     const DEFAULT: Self = Self::new();
 }
 
-#[cfg(any(feature = "std", feature = "alloc"))]
+#[cfg(feature = "alloc")]
 impl<T> ConstDefault for Vec<T> {
     const DEFAULT: Self = Self::new();
 }
 
-#[cfg(any(feature = "std", feature = "alloc"))]
+#[cfg(feature = "alloc")]
 impl<T> ConstDefault for LinkedList<T> {
     const DEFAULT: Self = Self::new();
 }
@@ -269,7 +269,7 @@ impl<T> ConstDefault for Empty<T> {
     const DEFAULT: Self = iter::empty();
 }
 
-#[cfg(any(feature = "std", feature = "alloc"))]
+#[cfg(feature = "alloc")]
 impl<'a, T> ConstDefault for Cow<'a, T>
 where
     T: ToOwned + ?Sized + 'a,
@@ -279,12 +279,12 @@ where
         Self::Owned(<<T as ToOwned>::Owned as ConstDefault>::DEFAULT);
 }
 
-#[cfg(all(any(feature = "std", feature = "alloc"), feature = "unstable"))]
+#[cfg(all(feature = "alloc", feature = "unstable"))]
 impl<K: Ord, V> ConstDefault for BTreeMap<K, V> {
     const DEFAULT: Self = Self::new();
 }
 
-#[cfg(all(any(feature = "std", feature = "alloc"), feature = "unstable"))]
+#[cfg(all(feature = "alloc", feature = "unstable"))]
 impl<T: Ord> ConstDefault for BTreeSet<T> {
     const DEFAULT: Self = Self::new();
 }
