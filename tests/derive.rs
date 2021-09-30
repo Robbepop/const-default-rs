@@ -184,3 +184,19 @@ fn struct_of_cell_types_works() {
         field_2: RefCell<i32>,
     }
 }
+
+#[test]
+fn type_alias_works() {
+    type TestAlias = i32;
+
+    #[derive(ConstDefault, Debug, Default, PartialEq)]
+    pub struct TestType1 {
+        field_0: TestAlias,
+    }
+    #[derive(ConstDefault, Debug, Default, PartialEq)]
+    pub struct TestType2 {
+        field_0: TestAlias,
+    }
+    assert_eq!(<TestType1 as ConstDefault>::DEFAULT, TestType1::default());
+    assert_eq!(<TestType2 as ConstDefault>::DEFAULT, TestType2::default());
+}
