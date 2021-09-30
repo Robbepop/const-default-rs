@@ -189,6 +189,10 @@ impl_const_default_for_tuple!(T1, T2, T3, T4, T5, T6, T7);
 impl_const_default_for_tuple!(T1, T2, T3, T4, T5, T6, T7, T8);
 impl_const_default_for_tuple!(T1, T2, T3, T4, T5, T6, T7, T8, T9);
 impl_const_default_for_tuple!(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10);
+impl_const_default_for_tuple!(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11);
+impl_const_default_for_tuple!(
+    T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12
+);
 
 impl ConstDefault for bool {
     const DEFAULT: Self = false;
